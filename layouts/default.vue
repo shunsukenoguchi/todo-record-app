@@ -1,10 +1,57 @@
 <template>
-  <div>
-    <nuxt />
+<div>
+  <div class="img-container">
+    <img v-bind:src="img" />
+  </div>
+  <div class="app-layout">
+    <div class="main-content">
+      <nuxt />
+    </div>
+  </div>
   </div>
 </template>
+<script>
 
-<style>
+export default {
+
+    data() {
+      return {
+          img:'https://pbs.twimg.com/profile_images/1131882065337602049/0JRUGd3S_400x400.jpg'
+
+      }
+    }
+}
+</script>
+<style >
+.img-container {
+  width: 5%;
+  margin-bottom: -3px;
+  height: 5%;
+}
+
+img{
+ width: 100%;
+ height: 100%;
+ padding: 0px;
+}
+
+.app-layout {
+ display: flex;
+}
+
+
+
+.sidebar p {
+  color:#dddd;
+  padding-top:14px;
+}
+
+.main-content {
+ width: 100%;
+ background:  #F1F1F1;
+ height: 95vh;
+}
+
 html {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, 'Helvetica Neue', Arial, sans-serif;

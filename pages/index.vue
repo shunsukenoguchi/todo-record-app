@@ -1,72 +1,79 @@
 <template>
   <div class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        todo-record
-      </h1>
-      <h2 class="subtitle">
-        My exceptional Nuxt.js project
-      </h2>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+    <div class='sidebar'>
+      <div class="input-layout">
+        <input-form />
       </div>
+        <div class="todos-layout">
+          <messages />
+      </div>
+    </div>
+    <div class="left-container">
+
+
+    </div>
+    <div class="right-container">
+
     </div>
   </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-
+import Messages from '~/components/Messages.vue'
+import InputForm from '~/components/InputForm.vue'
+import {db} from '~/plugins/firebase'
 export default {
-  components: {
-    Logo
+
+    components: {
+      Messages,
+      InputForm
+
+    },
+    data() {
+      return {
+        todos: []
+      }
+    },
+    mounted () {
+      db.collection('todos').get()
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            this.todos.push({id: doc.id, ...doc.data()})
+          })
+        })
+    }
   }
-}
 </script>
-
-<style>
+<style scoped>
 .container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+ height: 100%;
+ width:100%;
+ display: flex;
+}
+.left-container {
+  width:40%;
+}
+.right-container {
+  width:30%;
+  border-left: 1px solid black;
+}
+.sidebar {
+ width: 30%;
+ background:rgb(206, 200, 200);
+ height: 95vh;
+ padding: 30px;
 }
 
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
+/* 以下を追加 */
+.todos-layout {
+ overflow: scroll;
+ height: 90%;
 }
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
+.input-layout {
+ height: 10%;
+ padding: 0px 5px ;
+
 }
 
-.links {
-  padding-top: 15px;
-}
 </style>
